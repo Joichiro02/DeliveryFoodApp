@@ -11,7 +11,7 @@ import {
   MagnifyingGlassIcon,
 } from "react-native-heroicons/outline";
 
-function Home() {
+export default function Home() {
   const navigation = useNavigation();
 
   useLayoutEffect(() => {
@@ -59,5 +59,3 @@ function Home() {
     </SafeAreaView>
   );
 }
-
-export default Home;
