@@ -1,7 +1,7 @@
 import React, { useLayoutEffect } from "react";
 import { View, Text, Image, TextInput, ScrollView } from "react-native";
 
-import Categories from "components/Categories";
+// ** libraries
 import { useNavigation } from "@react-navigation/native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import {
@@ -11,6 +11,11 @@ import {
   MagnifyingGlassIcon,
 } from "react-native-heroicons/outline";
 
+// ** components
+import Categories from "components/Categories";
+import FeaturedRow from "components/FeaturedRow";
+
+// ** index function
 export default function Home() {
   const navigation = useNavigation();
 
@@ -21,7 +26,7 @@ export default function Home() {
   }, []);
 
   return (
-    <SafeAreaView className="bg-white pt-5">
+    <SafeAreaView className="bg-white pt-5 flex-1">
       {/* Header */}
       <View className="flex-row pb-3 items-center mx-4 space-x-2">
         <Image
@@ -54,8 +59,33 @@ export default function Home() {
       <ScrollView className="bg-gray-100">
         {/* Categories */}
         <Categories />
+
         {/* Featured Rows */}
+        <FeaturedRow
+          id="123"
+          title="Featured"
+          description="Paid placements from our partners"
+          featuredCategory={["featured"]}
+        />
+
+        {/* Tasty Discount */}
+        <FeaturedRow
+          id="1234"
+          title="Tasty "
+          description="Everyone's been enjoying these juicy discounts!"
+          featuredCategory={["featured"]}
+        />
+
+        {/* Offers near you */}
+        <FeaturedRow
+          id="12345"
+          title="Offers near you!"
+          description="Why not support your local restaurant tonight!"
+          featuredCategory={["featured"]}
+        />
       </ScrollView>
     </SafeAreaView>
   );
 }
+
+// 1:16:39
