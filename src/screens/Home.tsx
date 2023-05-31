@@ -1,4 +1,4 @@
-import React, { useLayoutEffect } from "react";
+import React, { useEffect, useLayoutEffect, useState } from "react";
 import { View, Text, Image, TextInput, ScrollView } from "react-native";
 
 // ** libraries
@@ -14,15 +14,40 @@ import {
 // ** components
 import Categories from "components/Categories";
 import FeaturedRow from "components/FeaturedRow";
+import sanityClient from "../../delivery-food-app/sanity";
 
 // ** index function
 export default function Home() {
   const navigation = useNavigation();
+  // **
+  const [featuredCategory, setFeaturedCategory] = useState([]);
 
   useLayoutEffect(() => {
     navigation.setOptions({
       headerShown: false,
     });
+  }, []);
+
+  useEffect(() => {
+    console.log("@@@@@@@@@");
+
+    sanityClient
+      .fetch(
+        `
+    *[_type == "featured"] {
+      ...,
+      restaurants[] -> {
+        ...,
+        dishes[] -> {
+        }
+      }
+    }`
+      )
+      .then((data) => {
+        console.log("@@@", data);
+
+        setFeaturedCategory(data);
+      });
   }, []);
 
   return (
@@ -61,28 +86,15 @@ export default function Home() {
         <Categories />
 
         {/* Featured Rows */}
-        <FeaturedRow
-          id="123"
-          title="Featured"
-          description="Paid placements from our partners"
-          featuredCategory={["featured"]}
-        />
-
-        {/* Tasty Discount */}
-        <FeaturedRow
-          id="1234"
-          title="Tasty "
-          description="Everyone's been enjoying these juicy discounts!"
-          featuredCategory={["featured"]}
-        />
-
-        {/* Offers near you */}
-        <FeaturedRow
-          id="12345"
-          title="Offers near you!"
-          description="Why not support your local restaurant tonight!"
-          featuredCategory={["featured"]}
-        />
+        {featuredCategory?.map((category) => (
+          <FeaturedRow
+            key={category._id}
+            id={category._id}
+            title={category.name}
+            description={category.short_description}
+            featuredCategory={category.restaurants}
+          />
+        ))}
       </ScrollView>
     </SafeAreaView>
   );
