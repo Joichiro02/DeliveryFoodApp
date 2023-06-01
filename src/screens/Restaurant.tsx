@@ -10,6 +10,8 @@ import {
 } from "react-native-heroicons/solid";
 
 import { urlFor } from "../../delivery-food-app/sanity";
+import { QuestionMarkCircleIcon } from "react-native-heroicons/outline";
+import DishRow from "components/DishRow";
 
 export default function Restaurant() {
   const navigation = useNavigation();
@@ -31,6 +33,8 @@ export default function Restaurant() {
   useLayoutEffect(() => {
     navigation.setOptions({ headerShown: false });
   }, []);
+
+  console.log("@@", dishes);
 
   return (
     <ScrollView>
@@ -57,14 +61,43 @@ export default function Restaurant() {
               </Text>
             </View>
 
-            <View className="flex-row items-center space-x-1">
+            <View className="flex-row items-center space-x-1 w-56">
               <MapPinIcon color="gray" opacity={0.4} size={22} />
               <Text className="text-xs text-gray-500" numberOfLines={1}>
                 Nearby · {address}
               </Text>
             </View>
           </View>
+          <Text
+            className="text-gray-500 mt-2 pb-4 text-justify"
+            numberOfLines={3}
+          >
+            {short_description}
+          </Text>
         </View>
+        <TouchableOpacity className="flex-row items-center space-x-2 p-4 border-y border-gray-300">
+          <QuestionMarkCircleIcon color="gray" opacity={0.6} size={20} />
+          <Text className="pl-2 flex-1 text-md font-bold">
+            Have a food allergy?
+          </Text>
+          <ChevronRightIcon color="#00CCBB" />
+        </TouchableOpacity>
+      </View>
+
+      <View>
+        <Text className="px-4 pt-6 mb-3 font-bold text-xl">Menu</Text>
+
+        {/* Dishrows */}
+        {dishes?.map((item) => (
+          <DishRow
+            key={item._id}
+            id={item._id}
+            name={item.name}
+            short_description={item.short_description}
+            price={item.price}
+            image={item.image}
+          />
+        ))}
       </View>
     </ScrollView>
   );
