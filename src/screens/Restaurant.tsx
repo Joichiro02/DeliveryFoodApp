@@ -1,4 +1,4 @@
-import { useLayoutEffect } from "react";
+import { useEffect, useLayoutEffect } from "react";
 import { Image, ScrollView, Text, TouchableOpacity, View } from "react-native";
 // ** libraries
 import { useNavigation, useRoute } from "@react-navigation/native";
@@ -8,14 +8,17 @@ import {
     MapPinIcon,
     StarIcon,
 } from "react-native-heroicons/solid";
-
-import { urlFor } from "../../delivery-food-app/sanity";
 import { QuestionMarkCircleIcon } from "react-native-heroicons/outline";
+import { useDispatch } from "react-redux";
+
 import DishRow from "components/DishRow";
 import BasketIcon from "components/BasketIcon";
+import { setRestaurant } from "features/restaurantSlice";
+import { urlFor } from "../../delivery-food-app/sanity";
 
 export default function Restaurant() {
     const navigation = useNavigation();
+    const dispatch = useDispatch();
     const {
         params: {
             id,
@@ -31,11 +34,26 @@ export default function Restaurant() {
         },
     } = useRoute<any>();
 
+    useEffect(() => {
+        dispatch(
+            setRestaurant({
+                id,
+                imgUrl,
+                title,
+                rating,
+                genre,
+                address,
+                short_description,
+                dishes,
+                long,
+                lat,
+            })
+        );
+    }, []);
+
     useLayoutEffect(() => {
         navigation.setOptions({ headerShown: false });
     }, []);
-
-    console.log("@@", dishes);
 
     return (
         <>
