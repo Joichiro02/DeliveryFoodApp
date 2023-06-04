@@ -17,6 +17,9 @@ export default function BasketIcon() {
     const item = useSelector(selectBasketItems);
     const basketTotal = useSelector(selectBasketTotal);
 
+    // ** if no item in basket dont display the basketIcon component
+    if (item.length === 0) return null;
+
     return (
         <View className="absolute bottom-10 w-full z-50">
             <TouchableOpacity
