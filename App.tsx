@@ -12,6 +12,7 @@ import Home from "screens/Home";
 import PreparingOrder from "screens/PreparingOrder";
 import Restaurant from "screens/Restaurant";
 import { store } from "./store";
+import Delivery from "screens/Delivery";
 
 const Stack = createNativeStackNavigator();
 
@@ -34,6 +35,7 @@ export default function App() {
               options={{
                 headerShown: false,
                 presentation: "modal",
+                animation: "slide_from_bottom",
               }}
             />
             <Stack.Screen
@@ -42,6 +44,16 @@ export default function App() {
               options={{
                 presentation: "fullScreenModal",
                 headerShown: false,
+                animation: "slide_from_bottom",
+              }}
+            />
+            <Stack.Screen
+              name="Delivery"
+              component={Delivery}
+              options={{
+                presentation: "fullScreenModal",
+                headerShown: false,
+                animation: "slide_from_bottom",
               }}
             />
           </Stack.Navigator>

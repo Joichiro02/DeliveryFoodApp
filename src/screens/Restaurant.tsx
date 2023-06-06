@@ -9,10 +9,11 @@ import {
   StarIcon,
 } from "react-native-heroicons/solid";
 import { QuestionMarkCircleIcon } from "react-native-heroicons/outline";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
 import BasketIcon from "components/BasketIcon";
 import DishRow from "components/DishRow";
+import { selectBasketItems } from "features/basketSlice";
 import { setRestaurant } from "features/restaurantSlice";
 import { urlFor } from "../../delivery-food-app/sanity";
 
@@ -33,6 +34,9 @@ export default function Restaurant() {
       lat,
     },
   } = useRoute<any>();
+
+  // ** basketSlice helper
+  const item = useSelector(selectBasketItems);
 
   useEffect(() => {
     dispatch(
@@ -105,7 +109,7 @@ export default function Restaurant() {
           </TouchableOpacity>
         </View>
 
-        <View className="pb-36">
+        <View className={item.length !== 0 ? "pb-36" : null}>
           <Text className="px-4 pt-6 mb-3 font-bold text-xl">Menu</Text>
 
           {/* Dishrows */}
